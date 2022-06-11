@@ -5,6 +5,7 @@
 #include "include/mahasiswa.hpp"
 #include "include/dosen.hpp"
 #include "include/tendik.hpp"
+#include "include/matkul.hpp"
 
 using namespace std;
 
@@ -14,6 +15,7 @@ int main()
 	vector<mahasiswa> recMhs;
 	vector<dosen> recDosen;
 	vector<tendik> recTendik;
+	vector<matkul> recmatkul;
 
 	int menu_terpilih;
 	int menu_secondary;
@@ -29,24 +31,28 @@ int main()
 		cout << "  1. Jumlah Mahasiswa             : " << recMhs.size() << " mahasiswa" << endl;
 		cout << "  2. Jumlah Dosen                 : " << recDosen.size() << " dosen" << endl;
 		cout << "  3. Jumlah Tenaga Kependidikan   : " << recTendik.size() << " tenaga kependidikan" << endl;
+		cout << "  4. Jumlah Mata kuliah		  : " << recmatkul.size() << " mata kuliah" << endl;
 		cout << endl << "================================================================================\n\n";
 		cout << "Menu: " << endl;
 		cout << "  1. Tambah Mahasiswa" << endl;
 		cout << "  2. Tambah Dosen" << endl;
 		cout << "  3. Tambah Tenaga Kependidikan" << endl;
-		cout << "  4. Tampilkan semua Mahasiswa" << endl;
-		cout << "  5. Tampilkan semua Dosen" << endl;
-		cout << "  6. Tampilkan semua Tenaga Kependidikan" << endl;
-		cout << "  7. Edit data" << endl;
-		cout << "-> Silahkan memilih salah satu: ";
+		cout << "  4. Tambah Matkul" << endl;
+		cout << "  5. Tampilkan semua Mahasiswa" << endl;
+		cout << "  6. Tampilkan semua Dosen" << endl;
+		cout << "  7. Tampilkan semua Tenaga Kependidikan" << endl;
+		cout << "  8. Tampilkan semua mata kuliah" << endl;
+		cout << "  9. Edit data" << endl;
+		cout << "Silahkan memilih salah satu: ";
 		cin >> menu_terpilih;
 		cout << endl << "================================================================================\n\n";
 
-		int idm, idd, idt, nid, dd, mm, yy, tahunmasuk;
+		int idm, idd, idt, idMK, nid, dd, mm, yy, tahunmasuk;
 		idm = 0; 
 		idd = 0;
 		idt = 0;
-		string nama, nrp, departemen, npp, pendidikan, unit; 
+		idMK = 0;
+		string nama, nrp, departemen, npp, pendidikan, unit, kodeMK; 
 
 		switch (menu_terpilih) //memilih opsi dari menu utama
 		{
@@ -81,6 +87,7 @@ int main()
 
 				mahasiswa mhs(idm, nama, dd, mm, yy, nrp, departemen, tahunmasuk);
 				recMhs.push_back(mhs); //menambah size dari vector mahasiswa
+
 			}
 				break;
 
@@ -149,7 +156,28 @@ int main()
 			}
 				break;
 
-			case 4: //menampilkan list dari mahasiswa yang telah ditambahkan di case 1 dari menu utama 1
+			case 4: //opsi dari penambahan matkul
+			{
+				tambahMK:
+				system("cls||clear");
+				system("clear");
+				idMK = recmatkul.size();
+
+				cout << "Masukkan nama mata kuliah	: ";
+				cin.ignore();
+				getline(cin, nama);
+				cout << endl;
+
+				cout << "Masukkan kode mata kuliah	: ";
+				getline(cin, kodeMK);
+				cout << endl;
+
+				matkul MK(idMK, nama, kodeMK);
+				recmatkul.push_back(MK);
+			}
+				break;
+
+			case 5: //menampilkan list dari mahasiswa yang telah ditambahkan di case 1 dari menu utama 1
 			{
 				listMhs:
 				system("cls||clear");
@@ -261,7 +289,7 @@ int main()
 			}
 				break;
 
-			case 5://untuk menampilkan semua daftar dosen hasil dari input case 2
+			case 6://untuk menampilkan semua daftar dosen hasil dari input case 2
 			{
 				listDsn:
 				system("cls||clear");
@@ -341,7 +369,7 @@ int main()
 			}
 				break;
 
-			case 6://menampilkan semua daftar tendik hasil dari input case 3
+			case 7://menampilkan semua daftar tendik hasil dari input case 3
 			{
 				listTndk:
 				system("cls||clear");
@@ -418,10 +446,86 @@ int main()
 			}
 				break;
 
-			case 7://menu untuk melakukan pengeditan terhadap detail data dari mahasiswa, dosen, dan tendik
+			case 8://menampilkan semua daftar matkul
+			{
+				listMK:
+				system("cls||clear");
+				system("clear");
+
+				for (unsigned i = 0 ; i < recmatkul.size() ; i++)//loop untuk menampilkan matkul
+				{
+					cout << endl << i+1 << 	". Nama Mata kuliah	: " << recmatkul[i].getMK() << endl;
+					cout << "   Kode 			: " << recmatkul[i].getkodeMK() << "\n";
+				}
+
+				cout << endl << "================================================================================\n\n";
+
+				cout << "  Menu	:" << endl;
+				cout << "  1. Lihat mata kuliah" << endl;
+				cout << "  2. Tambah mata kuliah" <<  endl;
+				cout << "  3. Kembali ke menu utama" << endl;
+				cout << "  Masukkan pilihan : ";
+				cin >> menu_secondary;
+
+				switch(menu_secondary)
+				{
+					case 1://melihat detail data dari salah satu mata kuliah
+					{
+						cout << "  Masukkan id mata kuliah : ";
+						cin >> nid;
+
+						system("cls||clear");
+						system("clear");
+						cout << endl << "================================================================================\n\n";
+						cout << endl << "Nama Mata kuliah		: " << recmatkul[nid-1].getMK() << endl;
+						cout << "  Kode 			: " << recmatkul[nid-1].getkodeMK() << endl;
+						cout << endl << "================================================================================\n\n";
+
+						int menu3;
+						cout << "  1. Kembali\n";
+						cout << "  2. Menu utama\n";
+						cout << "  Masukkan pilihan : ";
+						cin >> menu3;
+
+						switch(menu3)
+						{
+							case 1://kembali ke menu list matkul
+							{
+								goto listMK;
+							}
+								break;
+
+							case 2://kembali ke main()
+							{
+								goto Menuutama;
+							}
+								break;
+
+						}
+					}
+						break;
+					
+					case 2://kembali ke menu tambah matkul
+					{
+						goto tambahMK;
+					}
+						break;
+
+					case 3://kembali ke main()
+					{
+						goto Menuutama;
+					}
+						break;
+
+				}
+			}
+				break;
+
+			case 9://menu untuk melakukan pengeditan terhadap detail data dari mahasiswa, dosen, dan tendik
 			{
 				Menuedit:
-				system("CLS");
+				system("cls||clear");
+				system("clear");
 				int menu3;
 				cout << endl << "================================================================================\n\n";
 				cout << "  Pilih menu	: " << endl;
@@ -669,7 +773,8 @@ int main()
 					}break;
 
 				}
-			}break;
+			}
+				break;
 
 		}
 	}
